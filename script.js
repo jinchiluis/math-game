@@ -1,3 +1,5 @@
+import { db, collection, addDoc, query, orderBy, limit, getDocs } from './firebase-config.js';
+
 // Game settings
 const settings = {
     language: 'en',
@@ -95,36 +97,42 @@ let timerInterval;
 let finalTime = 0;
 
 // High scores handling
-function getHighScores() {
-    // Get difficulty-specific high scores
-    const scores = localStorage.getItem(`highScores_${settings.difficulty}`);
-    return scores ? JSON.parse(scores) : [];
+async function getHighScores() {
+    try {
+        const scoresRef = collection(db, `highScores_${settings.difficulty}`);
+        const q = query(scoresRef, orderBy('time', 'asc'), limit(10));
+        const querySnapshot = await getDocs(q);
+        
+        const scores = [];
+        querySnapshot.forEach((doc) => {
+            scores.push(doc.data());
+        });
+        return scores;
+    } catch (error) {
+        console.error('Error getting high scores:', error);
+        return [];
+    }
 }
 
-function saveHighScore(name, time, difficulty) {
-    let highScores = getHighScores();
-    
-    // Add new score
-    highScores.push({
-        name: name,
-        time: time
-    });
-    
-    // Sort by time (ascending)
-    highScores.sort((a, b) => a.time - b.time);
-    
-    // Keep only top 10
-    highScores = highScores.slice(0, 10);
-    
-    // Save to localStorage with difficulty-specific key
-    localStorage.setItem(`highScores_${difficulty}`, JSON.stringify(highScores));
-    
-    // Update display
-    updateHighScoresTable();
+async function saveHighScore(name, time, difficulty) {
+    try {
+        const scoresRef = collection(db, `highScores_${difficulty}`);
+        await addDoc(scoresRef, {
+            name: name,
+            time: time,
+            timestamp: new Date().toISOString()
+        });
+        
+        // Update display
+        await updateHighScoresTable();
+    } catch (error) {
+        console.error('Error saving high score:', error);
+        alert('Failed to save high score. Please try again.');
+    }
 }
 
-function updateHighScoresTable() {
-    const highScores = getHighScores();
+async function updateHighScoresTable() {
+    const highScores = await getHighScores();
     const tbody = highScoresTable.querySelector('tbody');
     const thead = highScoresTable.querySelector('thead tr');
     tbody.innerHTML = '';
@@ -139,6 +147,7 @@ function updateHighScoresTable() {
             <td>${index + 1}</td>
             <td>${score.name}</td>
             <td>${formatTime(score.time)}</td>
+            <td>${translations[settings.language][settings.difficulty]}</td>
         `;
         tbody.appendChild(row);
     });
@@ -222,15 +231,10 @@ function checkAnswer() {
             finalTime = Date.now() - startTime;
             clearInterval(timerInterval);
             
-            const highScores = getHighScores();
-            if (highScores.length < 10 || finalTime < highScores[9].time) {
-                nameInputDialog.classList.remove('hidden');
-                nameInputDialog.style.display = 'flex';
-                playerNameInput.focus();
-            } else {
-                alert(translations[settings.language].gameComplete + formatTime(finalTime));
-                resetGame();
-            }
+            // Show name input dialog for all completions
+            nameInputDialog.classList.remove('hidden');
+            nameInputDialog.style.display = 'flex';
+            playerNameInput.focus();
         } else {
             generateProblem();
         }
@@ -240,10 +244,10 @@ function checkAnswer() {
 }
 
 // Handle name submission
-function handleNameSubmit() {
+async function handleNameSubmit() {
     const name = playerNameInput.value.trim();
     if (name) {
-        saveHighScore(name, finalTime, settings.difficulty);
+        await saveHighScore(name, finalTime, settings.difficulty);
         nameInputDialog.classList.add('hidden');
         nameInputDialog.style.display = 'none';
         resetGame();
