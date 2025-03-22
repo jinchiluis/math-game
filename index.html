@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Math Game</title>
+    
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#1a73e8">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Math Game">
+    
+    <!-- PWA Icons -->
+    <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+    <link rel="apple-touch-icon" href="icons/icon-192.png">
+    <link rel="apple-touch-icon" sizes="512x512" href="icons/icon-512.png">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Start Screen -->
+        <div id="startScreen" class="screen">
+            <h1>Math Game</h1>
+            <div class="start-box">
+                <div class="language-select">
+                    <button class="lang-btn active" data-lang="en">English</button>
+                    <button class="lang-btn" data-lang="zh">中文</button>
+                </div>
+                <div class="difficulty-select">
+                    <button class="diff-btn active" data-diff="easy" data-en="easy">Easy</button>
+                    <button class="diff-btn" data-diff="medium" data-en="medium">Medium</button>
+                    <button class="diff-btn" data-diff="hard" data-en="hard">Hard</button>
+                </div>
+                <div class="high-scores">
+                    <h2 data-en="High Scores">最高分</h2>
+                    <table id="highScoresTable">
+                        <thead>
+                            <tr>
+                                <th data-en="Rank">排名</th>
+                                <th data-en="Name">姓名</th>
+                                <th data-en="Time">时间</th>
+                                <th data-en="Difficulty">难度</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- High scores will be inserted here -->
+                        </tbody>
+                    </table>
+                </div>
+                <button id="startGame" class="start-btn" data-en="Start Game">开始游戏</button>
+            </div>
+        </div>
+
+        <!-- Game Screen -->
+        <div id="gameScreen" class="screen hidden">
+            <h1>Math Game</h1>
+            <div class="game-box">
+                <div class="stats">
+                    <div class="timer">
+                        <span data-en="Time">时间</span>: <span id="timer">00:00</span>
+                    </div>
+                    <div class="progress">
+                        <span data-en="Progress">进度</span>: <span id="progress">0</span>/10
+                    </div>
+                </div>
+                <div class="problem">
+                    <span id="num1">0</span>
+                    <span id="operator">+</span>
+                    <span id="num2">0</span>
+                    <span>=</span>
+                    <input type="number" id="answer" placeholder="Your answer">
+                </div>
+                <button id="check" data-en="Check Answer">检查答案</button>
+            </div>
+        </div>
+
+        <!-- Name Input Dialog -->
+        <div id="nameInputDialog" class="dialog hidden" style="display: none;">
+            <div class="dialog-content">
+                <h2 data-en="New High Score!">新纪录！</h2>
+                <p data-en="Enter your name">请输入你的名字</p>
+                <input type="text" id="playerName" maxlength="20">
+                <button id="submitName" data-en="Submit">提交</button>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+    <script src="pwa.js"></script>
+</body>
+</html> 

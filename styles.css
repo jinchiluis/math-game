@@ -1,0 +1,223 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background-color: #f0f2f5;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 90%;
+    max-width: 500px;
+    position: relative;
+}
+
+h1 {
+    color: #1a73e8;
+    margin-bottom: 2rem;
+}
+
+h2 {
+    color: #1a73e8;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+}
+
+.screen {
+    width: 100%;
+}
+
+.hidden {
+    display: none;
+}
+
+.start-box {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.language-select, .difficulty-select {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.lang-btn, .diff-btn {
+    background-color: #e0e0e0;
+    color: #333;
+    border: none;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s;
+    min-width: 100px;
+}
+
+.lang-btn.active, .diff-btn.active {
+    background-color: #1a73e8;
+    color: white;
+}
+
+.high-scores {
+    margin: 1rem 0;
+}
+
+#highScoresTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+
+#highScoresTable th,
+#highScoresTable td {
+    padding: 0.5rem;
+    text-align: center;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+#highScoresTable th {
+    background-color: #f8f9fa;
+    color: #666;
+    font-weight: bold;
+}
+
+#highScoresTable tr:nth-child(-n+3) td {
+    color: #1a73e8;
+    font-weight: bold;
+}
+
+.start-btn {
+    background-color: #34a853;
+    color: white;
+    border: none;
+    padding: 1rem 2rem;
+    font-size: 1.2rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.start-btn:hover {
+    background-color: #2d8e47;
+}
+
+.game-box {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.stats {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.2rem;
+    color: #666;
+    margin-bottom: 1rem;
+}
+
+.timer {
+    color: #1a73e8;
+    font-weight: bold;
+}
+
+.progress {
+    color: #34a853;
+    font-weight: bold;
+}
+
+.problem {
+    font-size: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+input {
+    width: 100px;
+    padding: 0.5rem;
+    font-size: 1.5rem;
+    text-align: center;
+    border: 2px solid #e0e0e0;
+    border-radius: 5px;
+}
+
+/* Only apply to the check answer button */
+#check {
+    background-color: #1a73e8;
+    color: white;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    font-size: 1.1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#check:hover {
+    background-color: #1557b0;
+}
+
+.score {
+    font-size: 1.2rem;
+    color: #666;
+}
+
+/* Dialog styles */
+.dialog {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.dialog-content {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+}
+
+#playerName {
+    width: 100%;
+    margin: 1rem 0;
+    padding: 0.5rem;
+    font-size: 1.2rem;
+}
+
+#submitName {
+    background-color: #34a853;
+    color: white;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    font-size: 1.1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#submitName:hover {
+    background-color: #2d8e47;
+} 
