@@ -1,12 +1,13 @@
-const CACHE_NAME = 'math-game-v1';
+const CACHE_NAME = 'math-game-v2';
 const ASSETS_TO_CACHE = [
-    '.',
-    'index.html',
-    'styles.css',
-    'script.js',
-    'manifest.json',
-    'icons/icon-192.png',
-    'icons/icon-512.png'
+    './',
+    './index.html',
+    './styles.css',
+    './script.js',
+    './pwa.js',
+    './manifest.json',
+    './icons/icon-192.png',
+    './icons/icon-512.png'
 ];
 
 // Install service worker and cache all assets
@@ -17,6 +18,7 @@ self.addEventListener('install', (event) => {
                 return cache.addAll(ASSETS_TO_CACHE);
             })
     );
+    self.skipWaiting();
 });
 
 // Activate service worker and clean up old caches
@@ -32,6 +34,7 @@ self.addEventListener('activate', (event) => {
             );
         })
     );
+    self.clients.claim();
 });
 
 // Serve cached content when offline
@@ -40,6 +43,12 @@ self.addEventListener('fetch', (event) => {
         caches.match(event.request)
             .then((response) => {
                 return response || fetch(event.request);
+            })
+            .catch(() => {
+                // If both cache and network fail, return the offline page
+                if (event.request.mode === 'navigate') {
+                    return caches.match('./index.html');
+                }
             })
     );
 }); 
